@@ -3,22 +3,40 @@ import {load_project} from "../project/loading"
 import * as shell from 'shelljs'
 import * as git from "nodegit"
 import * as Promise from 'bluebird'
+const fs = require('fs')
 
+function gitCommand(command) {
+  if (process.platform === 'win32') {
+    shell.exec('powershell "' + command + '"')
+  }
+  else {
+    shell.exec(command)
+  }
+}
 function gitClone(dependency, path) {
   const remote = dependency.remote
   const git_remote = 'git@github.com:' + remote.path + '.git'
-  // shell.cd(config.shared_path)
-  // shell.exec('powershell "git clone git@github.com:' + remote.path + '.git ' + dependency.name + '"')
-  const cloneOptions:any = {}
-  cloneOptions.fetchOpts = {
-    callbacks: {
-      certificateCheck: function() { return 1; },
-      credentials: function(url, userName) {
-        return git.Cred.sshKeyFromAgent(userName);
-      }
-    }
-  };
-  return git.Clone(git_remote, path, cloneOptions)
+  const final_path = path + '/' + dependency.name
+  shell.cd(path)
+  if (fs.existsSync(final_path)) {
+    console.log('Updating', dependency.name)
+    shell.cd(final_path)
+    gitCommand('git pull')
+  }
+  else {
+    console.log('Cloning', dependency.name)
+    gitCommand('git clone git@github.com:' + remote.path + '.git ' + dependency.name)
+  }
+  // const cloneOptions:any = {}
+  // cloneOptions.fetchOpts = {
+  //   callbacks: {
+  //     certificateCheck: function() { return 1; },
+  //     credentials: function(url, userName) {
+  //       return git.Cred.sshKeyFromAgent(userName);
+  //     }
+  //   }
+  // };
+  // return git.Clone(git_remote, path, cloneOptions)
 }
 
 export function install(project: Project, config) {
