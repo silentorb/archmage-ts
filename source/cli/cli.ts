@@ -13,6 +13,7 @@ function gitCommand(command) {
     shell.exec(command)
   }
 }
+
 function gitClone(dependency, path) {
   const remote = dependency.remote
   const git_remote = 'git@github.com:' + remote.path + '.git'
@@ -27,19 +28,10 @@ function gitClone(dependency, path) {
     console.log('Cloning', dependency.name)
     gitCommand('git clone git@github.com:' + remote.path + '.git ' + dependency.name)
   }
-  // const cloneOptions:any = {}
-  // cloneOptions.fetchOpts = {
-  //   callbacks: {
-  //     certificateCheck: function() { return 1; },
-  //     credentials: function(url, userName) {
-  //       return git.Cred.sshKeyFromAgent(userName);
-  //     }
-  //   }
-  // };
-  // return git.Clone(git_remote, path, cloneOptions)
 }
 
 export function install(project: Project, config) {
+  shell.mkdir('-p', config.shared_path)
   var list = []
   const dependencies = project.getExternalDependencies()
   for (var i in dependencies) {
