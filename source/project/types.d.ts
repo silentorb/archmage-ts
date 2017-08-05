@@ -7,4 +7,12 @@ export interface DependencyWithoutName {
 }
 export interface Dependency extends DependencyWithoutName {
     name: string;
+    install?: string | string[];
+}
+export interface PathsConfig {
+    shared: string;
+    cmake_tools: string;
+}
+export interface Config {
+    paths: PathsConfig;
 }

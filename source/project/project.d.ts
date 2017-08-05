@@ -4,6 +4,7 @@ export declare type DependencyMap = {
 };
 export declare class Project {
     private externalDependencies;
+    scripts: any;
     addExternalDependency(dependency: any): void;
     getExternalDependencies(): DependencyMap;
 }

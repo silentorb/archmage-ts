@@ -3,6 +3,7 @@ import {Project} from "./project"
 
 export interface ProjectSource {
   external: { [key: string]: DependencyWithoutName }
+  scripts
 }
 
 export function load_project(project_path: string) {
@@ -17,5 +18,6 @@ export function load_project(project_path: string) {
     project.addExternalDependency(dependency)
   }
 
+  project.scripts = content.scripts
   return project
 }

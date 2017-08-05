@@ -11,6 +11,7 @@ function load_project(project_path) {
         dependency.name = i;
         project.addExternalDependency(dependency);
     }
+    project.scripts = content.scripts;
     return project;
 }
 exports.load_project = load_project;

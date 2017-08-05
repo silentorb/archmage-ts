@@ -1,0 +1,11 @@
+{
+  "external": {
+    "boost.filesystem": {
+      "parent": "boost",
+      "remote": {
+        "type": "git",
+        "path": "file:///E:/dev/cpp/third-party/cmake-boost"
+      }
+    }
+  }
+}
