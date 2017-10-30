@@ -1,1 +1,1 @@
-export declare function runConsole(): any;
+export declare function runConsole(): void;

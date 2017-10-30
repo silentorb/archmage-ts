@@ -6,5 +6,5 @@ import {install} from "./install"
 export function runConsole() {
   console.log('Using Archmage!')
   const config = require('../../config/config.json')
-  return install(process.cwd().replace("\\", '/'), config)
+  return install(process.cwd().replace("\\", '/'), config, process.argv[2])
 }

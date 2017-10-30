@@ -1,4 +1,5 @@
 import {Config} from "../project/types"
+
 const fs = require('fs')
 import * as shell from 'shelljs'
 import * as git from "nodegit"
@@ -100,7 +101,7 @@ class Installer {
 
 }
 
-export function install(project_path: string, config: Config) {
+export function install(project_path: string, config: Config, filter?: string) {
   const path = require('path')
   const project = load_project(path.join(project_path, 'archmage.json'))
 
@@ -110,9 +111,14 @@ export function install(project_path: string, config: Config) {
 
   const installer = new Installer(project_path, config)
 
-  for (let i in dependencies) {
-    const dependency = dependencies[i]
-    installer.installDependency(dependency, config.paths.shared)
+  if (filter) {
+    installer.installDependency(dependencies[filter], config.paths.shared)
+  }
+  else {
+    for (let i in dependencies) {
+      const dependency = dependencies[i]
+      installer.installDependency(dependency, config.paths.shared)
+    }
   }
 
   if (project.scripts && project.scripts.install) {
